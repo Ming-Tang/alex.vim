@@ -23,10 +23,16 @@ set isident+=@
 syn match haskell_comment  /--.*$/ contained contains=alex_todo,alex_fixme
 syn match haskell_char /'[^\\]'\|'\\.'/ contained
 
+syn cluster haskell contains=haskell_comment,haskell_block_comment,haskell_string,haskell_char,haskell_directive,haskell_code,haskell_keyword,haskell_operator,haskell_number,haskell_float
+syn region haskell_code             start=/{/ skip=/'\\\?}'/ end=/}/    fold contains=@haskell
 syn region haskell_string           start=/"/ skip=/\\"/ end=/"/        contained
 syn region haskell_block_comment    start=/{-/ end=/-}/                 fold contained contains=haskell_block_comment,alex_todo,alex_fixme
-syn region haskell_directive        start=/{-#/ end=/#-}/               contained
-syn region haskell_code             start=/{/ skip=/'\\\?}'/ end=/}/    fold contains=haskell_comment,haskell_block_comment,haskell_string,haskell_char,haskell_code,haskell_directive
+syn region haskell_directive        start=/{-#/ end=/#-}/               fold contained
+
+syn match haskell_keyword "\<\(case\|class\|data\|default\|deriving\|do\|else\|forall\|if\|import\|in\|infix\|infixl\|infixr\|instance\|let\|module\|newtype\|of\|qualified\|then\|type\|where\|foreign\|ccall\|as\|safe\|unsafe\)\>"
+syn match haskell_number "\<[0-9]\+\>\|\<0[xX][0-9a-fA-F]\+\>\|\<0[oO][0-7]\+\>"
+syn match haskell_float "\<[0-9]\+\.[0-9]\+\([eE][-+]\=[0-9]\+\)\=\>"
+syn match haskell_operator "\v[\!\#\$\%\&\*\+\.\/\<\=\>\?\@\\\^\|\~\:]|\-(\-)@!"
 
 " Comments in alex file
 syn match alex_comment  /--.*$/ contains=alex_todo,alex_fixme
@@ -50,7 +56,7 @@ syn region alex_sets start="\[" skip="\\]" end="]" contains=alex_char,alex_anych
 
 " Regular expressions
 syn match alex_regexp   /@[a-zA-Z_][a-zA-Z_\d]*/
-syn match alex_rexpspec /[*+?]/
+syn match alex_rexpspec /[*+?()]/
 syn match alex_repeat   /{\d\+\(\,\d*\)\?}/
 
 " Keywords
@@ -61,6 +67,10 @@ hi def link haskell_block_comment   Comment
 hi def link haskell_directive       Special
 hi def link haskell_char            Character
 hi def link haskell_string          String
+hi def link haskell_keyword         Keyword
+hi def link haskell_number          Number
+hi def link haskell_float           Number
+hi def link haskell_operator        Operator
 
 hi def link alex_comment            Comment
 hi def link alex_todo               Todo
@@ -71,8 +81,8 @@ hi def link alex_range              Character
 hi def link alex_anychar            Special
 hi def link alex_setcompl           Special
 hi def link alex_setspec            Special
-hi def link alex_rexpspec           Special
 hi def link alex_repeat             Special
+hi def link alex_rexpspec           Operator
 hi def link alex_set                Identifier
 hi def link alex_regexp             Function
 hi def link alex_keywords           Keyword

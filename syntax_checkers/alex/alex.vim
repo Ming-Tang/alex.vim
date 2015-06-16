@@ -7,7 +7,7 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 function! SyntaxCheckers_alex_alex_GetLocList() dict
-    let l:makeprg = self.makeprgBuild({ 'args': '-d' })
+    let l:makeprg = self.makeprgBuild({ 'args': '' })
 
     let l:errorformat =
         \ '%f:%l:%c:%m'
